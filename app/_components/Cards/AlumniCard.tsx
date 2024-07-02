@@ -13,7 +13,7 @@ export default function AlumniCard({ name, position, src }: any) {
           height={200}
         />
       </div>
-      <div className="font-unkempt  my-1">
+      <div className="md:font-unkempt my-1">
         <div className="font-bold">{name}</div>
         <div className="">{position}</div>
       </div>
