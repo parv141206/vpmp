@@ -1,7 +1,8 @@
 import Image from "next/image";
 import AlumniCard from "../_components/Cards/AlumniCard";
 import About from "../_components/About";
-
+import RenderAlumni from "../_components/RenderAlumni";
+import Form from "../_components/Form";
 export default function Home() {
   return (
     <>
@@ -65,6 +66,12 @@ export default function Home() {
       </div>
       <div className="md:my-16 container mx-auto md:px-10 px-5">
         <About />
+      </div>
+      <div className="md:my-16 container mx-auto md:px-10 px-5">
+        <RenderAlumni />
+      </div>
+      <div className="md:my-16 container mx-auto md:px-10 px-5">
+        <Form />
       </div>
     </>
   );

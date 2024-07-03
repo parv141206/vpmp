@@ -11,15 +11,33 @@ export async function POST(req: NextRequest) {
     const batch = formData.get("batch");
     const position = formData.get("position");
     const company = formData.get("company");
-
+    const branch = formData.get("branch"); // added branch to formData
     if (imageFile instanceof File) {
       const buffer = Buffer.from(await imageFile.arrayBuffer());
       const binaryData = new Binary(buffer);
 
       await client.connect();
+
       const db = client.db("vpmp");
-      const collection = db.collection("images");
+      let collection = db.collection("ce");
+      console.log(branch);
+      if (branch === "ce") {
+        console.log("cdcdc");
+        collection = db.collection("ce");
+      } else if (branch === "me") {
+        collection = db.collection("me");
+      } else if (branch === "ee") {
+        collection = db.collection("ee");
+      } else if (branch === "ec") {
+        collection = db.collection("ec");
+      } else if (branch === "civil") {
+        collection = db.collection("civil");
+      } else {
+        collection = db.collection("ce");
+      }
+      console.log(collection);
       const res = await collection.insertOne({
+        branch,
         name,
         batch,
         position,
@@ -39,24 +57,32 @@ export async function POST(req: NextRequest) {
     });
   }
 }
-
 export async function GET(req: NextRequest) {
   try {
     await client.connect();
     const db = client.db("vpmp");
-    const collection = db.collection("images");
-    const res = await collection.find({}).toArray();
+    const branches = ["ce", "me", "ee", "ec", "civil"];
+    const imageData = [];
+
+    for (const branch of branches) {
+      const collection = db.collection(branch);
+      const res = await collection.find({}).toArray();
+      imageData.push(
+        ...res.map((image) => ({
+          id: image._id,
+          name: image.name,
+          batch: image.batch,
+          company: image.company,
+          position: image.position,
+          src: `data:image/jpeg;base64,${image.image.toString("base64")}`,
+          branch,
+        }))
+      );
+    }
+
     await client.close();
 
-    if (res.length > 0) {
-      const imageData = res.map((image) => ({
-        id: image._id,
-        name: image.name,
-        batch: image.batch,
-        company: image.company,
-        position: image.position,
-        src: `data:image/jpeg;base64,${image.image.toString("base64")}`,
-      }));
+    if (imageData.length > 0) {
       return new NextResponse(JSON.stringify(imageData));
     } else {
       return new NextResponse(JSON.stringify({ error: "No images found" }), {

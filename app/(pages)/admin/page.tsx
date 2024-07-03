@@ -8,6 +8,7 @@ export default function Home() {
   const [batch, setBatch] = useState("");
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
+  const [branch, setBranch] = useState(""); // added branch state
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -28,6 +29,9 @@ export default function Home() {
       case "company":
         setCompany(value);
         break;
+      case "branch": // added branch case
+        setBranch(value);
+        break;
       default:
         break;
     }
@@ -41,6 +45,7 @@ export default function Home() {
     formData.append("batch", batch);
     formData.append("position", position);
     formData.append("company", company);
+    formData.append("branch", branch); // added branch to formData
 
     try {
       const response = await fetch("/api/db/images", {
@@ -79,29 +84,40 @@ export default function Home() {
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
         <input
+          placeholder="name"
           type="text"
           name="name"
           value={name}
           onChange={handleInputChange}
         />
         <input
+          placeholder="batch"
           type="text"
           name="batch"
           value={batch}
           onChange={handleInputChange}
         />
         <input
+          placeholder="position"
           type="text"
           name="position"
           value={position}
           onChange={handleInputChange}
         />
         <input
+          placeholder="company"
           type="text"
           name="company"
           value={company}
           onChange={handleInputChange}
         />
+        <select name="branch" value={branch} onChange={handleInputChange}>
+          <option value="ce">CE</option>
+          <option value="me">ME</option>
+          <option value="ec">EC</option>
+          <option value="ee">EE</option>
+          <option value="civil">Civil</option>
+        </select>
         <button type="submit">Upload Image</button>
       </form>
       <button onClick={fetchImages}>Fetch Images</button>

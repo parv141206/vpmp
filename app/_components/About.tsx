@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-
+import OurAlumniCard from "../_components/Cards/OurAlumniCard";
 export default function About() {
   return (
     <div className="">
@@ -27,6 +27,7 @@ export default function About() {
           and stay connected with the vibrant VPMP community.
         </div>
       </div>
+
       <div id="about" className="hidden"></div>
     </div>
   );

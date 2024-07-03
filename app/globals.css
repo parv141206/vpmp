@@ -22,3 +22,15 @@ body {
     url("/assets/svg/bg.png");
   background-size: 50%;
 }
+input {
+  @apply bg-sky-100 p-3 rounded-md text-sky-900;
+}
+select {
+  @apply bg-sky-100 p-3 rounded-md text-sky-900;
+}
+button {
+  @apply border-none rounded-lg;
+}
+.submit {
+  @apply p-3 m-3 border rounded-lg bg-sky-700 text-white;
+}
