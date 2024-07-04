@@ -2,6 +2,7 @@
 import OurAlumniCard from "@/app/_components/Cards/OurAlumniCard";
 import { useState } from "react";
 import Image from "next/image";
+import Dashboard from "@/app/_components/Dashboard";
 
 export default function Home() {
   const [file, setFile] = useState(null);
@@ -85,6 +86,7 @@ export default function Home() {
     <>
       <div className="flex items-center justify-center p-5">
         <div className="bg-sky-50 flex flex-col gap-5 items-center justify-around md:w-2/3 w-full text-black rounded-xl p-5">
+          <Dashboard />
           <div className="flex flex-col">
             <div className="text-xl text-black/75 font-bold ">Add Alumni</div>
           </div>
@@ -124,7 +126,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       <div className="bg-sky-50 max-w-lg mx-auto shadow-lg rounded-lg overflow-hidden p-3">
         <div className="p-4">
           <div className=" p-2 text-xl font-bold text-black/75 flex">
@@ -141,7 +142,6 @@ export default function Home() {
           </button>
         </div>
       </div>
-
       <div className="flex items-center justify-center w-full flex-col ">
         <div className="grid grid-cols-1 w-fit place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
           {images.map((image) => (
