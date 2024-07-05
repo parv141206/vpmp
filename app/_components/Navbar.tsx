@@ -25,6 +25,7 @@ export default function Navbar() {
         <Link href="#about-us">About Us</Link>
         <Link href="#alumni">Alumni</Link>
         <Link href="#apply">Apply Now</Link>
+        <Link href="/admin">Admin</Link>
       </ul>
     </div>
   );

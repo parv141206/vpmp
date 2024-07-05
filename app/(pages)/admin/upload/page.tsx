@@ -39,14 +39,14 @@ export default function Form() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const formData = new FormData();
     formData.append("image", file);
     formData.append("name", name);
     formData.append("batch", batch);
     formData.append("position", position);
     formData.append("company", company);
     formData.append("branch", branch); // added branch to formData
-    console.log(formData);
+
     try {
       const response = await fetch("/api/db/images/temp", {
         method: "POST",
@@ -55,7 +55,6 @@ export default function Form() {
       const res = await response.json();
       if (response.ok) {
         fetchImages();
-        alert("Submitted successfully");
       } else {
         console.error("Error uploading image:", res.error);
       }
@@ -82,10 +81,9 @@ export default function Form() {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="bg-sky-50 flex flex-col gap-5 items-center justify-around w-full text-black rounded-xl p-5">
+      <div className="bg-sky-50 flex flex-col gap-5 items-center justify-around md:w-2/3 w-full text-black rounded-xl p-5">
         <div className="flex flex-col">
-          <div className="text-xl text-black/75 ">Are you an alumni?</div>
-          <div className="text-5xl ">Join Us!</div>
+          <div className="text-xl text-black/75 ">Add an alumni?</div>
         </div>
         <div className="flex justify-around md:flex-row flex-col gap-10">
           <form
@@ -122,13 +120,13 @@ export default function Form() {
               Upload Image
             </button>
           </form>
+          <Image
+            src={"/assets/svg/formdoodle.svg"}
+            width={200}
+            height={200}
+            alt="Doodle"
+          />
         </div>
-        <Image
-          src={"/assets/svg/formdoodle.svg"}
-          width={200}
-          height={200}
-          alt="Doodle"
-        />
       </div>
     </div>
   );

@@ -83,67 +83,22 @@ export default function Home() {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center p-5">
-        <div className="bg-sky-50 flex flex-col gap-5 items-center justify-around md:w-2/3 w-full text-black rounded-xl p-5">
-          <Dashboard />
-          <div className="flex flex-col">
-            <div className="text-xl text-black/75 font-bold ">Add Alumni</div>
-          </div>
-          <div className="flex justify-around md:flex-row flex-col gap-10">
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-1 w-full items-start "
-            >
-              <label htmlFor="name">Name</label>
-              <input type="text" name="name" />
-              <label htmlFor="batch">Batch</label>
-              <input type="text" name="batch" />
-              <label htmlFor="position">Position</label>
-              <input type="text" name="position" />
-              <label htmlFor="branch">Branch</label>
-              <select name="branch" value={branch} onChange={handleInputChange}>
-                <option value="ce">CE</option>
-                <option value="me">ME</option>
-                <option value="ec">EC</option>
-                <option value="ee">EE</option>
-                <option value="civil">Civil</option>
-              </select>
-              <label htmlFor="image">
-                Please enter your image. Ensure the following,
-              </label>
-              <input type="file" onChange={handleFileChange} />
-              <button className="submit" type="submit">
-                Upload Image
-              </button>
-            </form>
-            <Image
-              src={"/assets/svg/formdoodle.svg"}
-              width={200}
-              height={200}
-              alt="Doodle"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="bg-sky-50 max-w-lg mx-auto shadow-lg rounded-lg overflow-hidden p-3">
-        <div className="p-4">
-          <div className=" p-2 text-xl font-bold text-black/75 flex">
+    <div className="w-full">
+      <div className="flex">
+        <div className="flex justify-center flex-col w-full">
+          <div className="justify-center text-center p-2 text-xl font-bold text-black/75 flex">
             Get Alumni
           </div>
-          <p className="text-gray-600 mt-2">
-            Click Fetch button to get Alumni Data
-          </p>
           <button
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="rounded p-3 m-3 dark:bg-blue-400"
             onClick={fetchImages}
           >
             Fetch Images
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-center w-full flex-col ">
-        <div className="grid grid-cols-1 w-fit place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
+      <div className="p-5 flex items-center justify-center w-full flex-col ">
+        <div className="opacity-90 grid grid-cols-1 w-fit place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
           {images.map((image) => (
             <OurAlumniCard
               key={image._id}
@@ -151,10 +106,19 @@ export default function Home() {
               position={image.position}
               src={image.src}
               className="shadow-md p-5"
-            />
+            >
+              <button
+                onClick={() => {
+                  handleDelete(image.id, branch);
+                }}
+                className="bg-red-500/25 backdrop-blur-lg text-white px-2 my-1 py-1 rounded"
+              >
+                Delete
+              </button>
+            </OurAlumniCard>
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
