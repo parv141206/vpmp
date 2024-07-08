@@ -13,7 +13,9 @@ export async function DELETE(req: NextRequest) {
     // removing the image from temp
     const collection = db.collection("temp");
     await collection.deleteOne({ _id: id });
-    return new NextResponse(JSON.stringify(res), { status: 200 });
+    return new NextResponse(JSON.stringify({ message: "deleted" }), {
+      status: 200,
+    });
   } catch (error) {
     return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 500,

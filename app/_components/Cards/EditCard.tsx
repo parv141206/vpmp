@@ -16,8 +16,9 @@ export default function EditCard({ id, name, position, src, onSave }): any {
       name: editableName,
       position: editablePosition,
     };
-
+    //@ts-ignore
     if (editableFile) {
+      //@ts-ignore
       updatedData.file = editableFile;
     }
 

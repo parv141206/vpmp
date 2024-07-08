@@ -9,11 +9,11 @@ export default function Form() {
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [branch, setBranch] = useState(""); // added branch state
-
+  //@ts-ignore
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
-
+  //@ts-ignore
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     switch (name) {
@@ -36,10 +36,11 @@ export default function Form() {
         break;
     }
   };
-
+  //@ts-ignore
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
+    //@ts-ignore
     formData.append("image", file);
     formData.append("name", name);
     formData.append("batch", batch);

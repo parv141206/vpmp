@@ -1,4 +1,4 @@
-import { MongoClient, Binary } from "mongodb";
+import { MongoClient, Binary, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 const client = new MongoClient("mongodb://localhost:27017");
@@ -90,6 +90,27 @@ export async function GET(req: NextRequest) {
       });
     }
   } catch (error) {
+    return new NextResponse(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
+  }
+}
+export async function DELETE(req: NextRequest) {
+  try {
+    await client.connect();
+    const db = client.db("vpmp");
+    const body = await req.json();
+    const id = new ObjectId(body.id);
+    const branch = body.branch;
+    console.log(branch)
+    const collection = db.collection(branch);
+    const res = await collection.deleteOne({ _id: id });
+    await client.close();
+    return new NextResponse(JSON.stringify({ message: "deleted" }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.log(error)
     return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 500,
     });

@@ -47,7 +47,17 @@ export default function Page() {
         body: JSON.stringify({ id: id, branch: branch }),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => alert("Deleted"))
+        .then(async () => {
+          const response = await fetch("/api/db/images/temp");
+          if (response.ok) {
+            const res = await response.json();
+            setImages(res);
+            console.log(res);
+          } else {
+            console.error("Error fetching images:", await response.text());
+          }
+        });
     } catch (error) {}
   };
   return (
@@ -62,13 +72,18 @@ export default function Page() {
               {getBranchName(branch)}
             </h1>
           </div>
-          <div className="flex items-center justify-center w-full flex-col ">
-            <div className="grid grid-cols-1 w-1/2 place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
-              {images[branch].map((image) => (
+          <div className="flex items-center p-5 justify-center w-full flex-col ">
+            <div className="grid grid-cols-1  place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
+              {/* @ts-ignore */}
+              {images[branch].length === 0 && (
+                <p className="text-center text-xl">No images found</p>
+              )}
+              {images[branch].map((image: any) => (
                 <OurAlumniCard
                   key={image.id}
                   name={image.name}
                   position={image.position}
+                  company={image.company}
                   src={image.src}
                   className="shadow-md p-5"
                 >
@@ -99,7 +114,7 @@ export default function Page() {
     </div>
   );
 }
-
+//@ts-ignore
 function getBranchName(branch) {
   switch (branch) {
     case "ce":

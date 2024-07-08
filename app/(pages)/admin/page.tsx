@@ -3,6 +3,8 @@ import OurAlumniCard from "@/app/_components/Cards/OurAlumniCard";
 import { useState } from "react";
 import Image from "next/image";
 import Dashboard from "@/app/_components/Dashboard";
+import ImportAlumni from "@/app/_components/ImportAlumni";
+import { fetchData } from "next-auth/client/_utils";
 
 export default function Home() {
   const [file, setFile] = useState(null);
@@ -12,11 +14,11 @@ export default function Home() {
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [branch, setBranch] = useState(""); // added branch state
-
+  //@ts-ignore
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
-
+  //@ts-ignore
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     switch (name) {
@@ -39,10 +41,11 @@ export default function Home() {
         break;
     }
   };
-
+  //@ts-ignore
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
+    //@ts-ignore
     formData.append("image", file);
     formData.append("name", name);
     formData.append("batch", batch);
@@ -81,10 +84,28 @@ export default function Home() {
       console.error("Error fetching images:", error);
     }
   };
+  const handleDelete = async (id: any, branch: any) => {
+    console.log(id);
+    console.log("_______________________", branch);
+    try {
+      fetch("/api/db/images/", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id, branch: branch }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data)).then(async () => {
+          fetchImages()
+        })
+    } catch (error) { }
 
+  };
   return (
     <div className="w-full">
-      <div className="flex">
+      <div className="flex flex-col">
+        <ImportAlumni />
         <div className="flex justify-center flex-col w-full">
           <div className="justify-center text-center p-2 text-xl font-bold text-black/75 flex">
             Get Alumni
@@ -101,15 +122,20 @@ export default function Home() {
         <div className="opacity-90 grid grid-cols-1 w-fit place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
           {images.map((image) => (
             <OurAlumniCard
+              //@ts-ignore
               key={image._id}
+              //@ts-ignore
               name={image.name}
+              //@ts-ignore
               position={image.position}
+              //@ts-ignore
               src={image.src}
               className="shadow-md p-5"
             >
               <button
                 onClick={() => {
-                  handleDelete(image.id, branch);
+                  //@ts-ignore
+                  handleDelete(image.id, image.branch);
                 }}
                 className="bg-red-500/25 backdrop-blur-lg text-white px-2 my-1 py-1 rounded"
               >

@@ -39,7 +39,7 @@ export default function RenderAlumni() {
   return (
     <div className="container mx-auto relative p-5">
       <Image
-        className="absolute right-20 -top-20"
+        className="absolute md:block hidden right-20 -top-20"
         src={"/assets/svg/alumniArrow.svg"}
         width={200}
         height={200}
@@ -52,18 +52,18 @@ export default function RenderAlumni() {
           className="mb-10 flex items-center justify-center flex-col"
         >
           <div className="w-2/3">
-            <h1 className="my-5 font-unkempt text-xl font-bold ">
+            <h1 className="my-5 font-unkempt text-xl md:text-start text-center font-bold ">
               {branch === "ce"
                 ? "Computer Engineering"
                 : branch === "me"
-                ? "Mechanical Engineering"
-                : branch === "ee"
-                ? "Electrical Engineering"
-                : branch === "ec"
-                ? "Electronics and Communication Engineering"
-                : branch === "civil"
-                ? "Civil Engineering"
-                : ""}
+                  ? "Mechanical Engineering"
+                  : branch === "ee"
+                    ? "Electrical Engineering"
+                    : branch === "ec"
+                      ? "Electronics and Communication Engineering"
+                      : branch === "civil"
+                        ? "Civil Engineering"
+                        : ""}
             </h1>
           </div>
           <div className="flex items-center justify-center w-full flex-col ">
@@ -74,6 +74,7 @@ export default function RenderAlumni() {
                   name={image.name}
                   position={image.position}
                   src={image.src}
+                  company={image.company}
                   className="shadow-md p-5"
                 />
               ))}

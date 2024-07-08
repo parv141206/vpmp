@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
         src: `data:image/jpeg;base64,${image.image.toString("base64")}`,
         name: image.name,
         position: image.position,
+        company: image.company
       }));
     }
 
