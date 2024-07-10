@@ -10,7 +10,7 @@ export default function OurAlumniCard({ name, position, company, src, children }
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="relative  justify-end bg-white h-60  flex flex-col rounded-md shadow-lg"
+      className="relative  justify-end bg-white h-72  flex flex-col rounded-md shadow-lg"
     >
       <div className=" bottom-0 bg-gradient-to-t from-black to-transparent left-0 right-0 p-4  text-white rounded-b-md">
         <div className="font-bold">{name}</div>

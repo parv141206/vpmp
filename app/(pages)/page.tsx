@@ -68,9 +68,13 @@ export default function Home() {
         <About />
       </div>
       <div className="md:my-16 container mx-auto md:px-10 px-5">
+
+        <div id="alumni"></div>
         <RenderAlumni />
       </div>
       <div className="md:my-16 container mx-auto md:px-10 px-5">
+        
+        <div id="apply"></div>
         <Form />
       </div>
     </>

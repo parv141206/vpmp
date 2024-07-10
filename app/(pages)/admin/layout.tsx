@@ -3,10 +3,8 @@ import React from "react";
 
 export default function layout({ children }: any) {
   return (
-    <div className="flex w-full">
-      <div>
-        <Dashboard />
-      </div>
+    <div className="flex relative w-full p-5">
+      <Dashboard />
       {children}
     </div>
   );

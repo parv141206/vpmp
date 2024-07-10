@@ -100,7 +100,7 @@ export default function Page() {
                       onClick={() => {
                         handleDelete(image.id, branch);
                       }}
-                      className="bg-red-500/25 backdrop-blur-lg text-white px-2 my-1 py-1 rounded"
+                      className="delete"
                     >
                       Delete
                     </button>

@@ -75,7 +75,13 @@ export default function Home() {
       if (response.ok) {
         const res = await response.json();
         console.log(res);
-        const imageData = res;
+        const imageData = res.reduce((acc, image) => {
+          if (!acc[image.branch]) {
+            acc[image.branch] = [];
+          }
+          acc[image.branch].push(image);
+          return acc;
+        }, {});
         setImages(imageData);
       } else {
         console.error("Error fetching images:", await response.text());
@@ -104,46 +110,59 @@ export default function Home() {
   };
   return (
     <div className="w-full">
-      <div className="flex flex-col">
+      <div className="flex flex-col p-5 gap-7">
         <ImportAlumni />
-        <div className="flex justify-center flex-col w-full">
+        <div className="flex justify-start items-start flex-col w-full">
           <div className="justify-center text-center p-2 text-xl font-bold text-black/75 flex">
             Get Alumni
           </div>
           <button
-            className="rounded p-3 m-3 dark:bg-blue-400"
+            className="btn"
             onClick={fetchImages}
           >
             Fetch Images
           </button>
         </div>
       </div>
-      <div className="p-5 flex items-center justify-center w-full flex-col ">
-        <div className="opacity-90 grid grid-cols-1 w-fit place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
-          {images.map((image) => (
-            <OurAlumniCard
-              //@ts-ignore
-              key={image._id}
-              //@ts-ignore
-              name={image.name}
-              //@ts-ignore
-              position={image.position}
-              //@ts-ignore
-              src={image.src}
-              className="shadow-md p-5"
-            >
-              <button
-                onClick={() => {
-                  //@ts-ignore
-                  handleDelete(image.id, image.branch);
-                }}
-                className="bg-red-500/25 backdrop-blur-lg text-white px-2 my-1 py-1 rounded"
-              >
-                Delete
-              </button>
-            </OurAlumniCard>
-          ))}
-        </div>
+      <div className="p-5 flex items-start justify-start w-full flex-col ">
+        {Object.keys(images).map((branch) => (
+          <div
+            key={branch}
+            className="mb-10 flex items-start justify-start flex-col"
+          >
+            <div className="">
+              <h1 className="mb-7  font-unkempt text-3xl md:text-start text-center font-bold ">
+                {branch === "ce"
+                  ? "Computer Engineering"
+                  : branch === "me"
+                    ? "Mechanical Engineering"
+                    : branch === "ee"
+                      ? "Electrical Engineering"
+                      : branch === "ec"
+                        ? "Electronics and Communication Engineering"
+                        : branch === "civil"
+                          ? "Civil Engineering"
+                          : ""}
+              </h1>
+            </div>
+            <div className="flex items-center justify-center w-full flex-col ">
+              <div className="grid grid-cols-1 w-fit place-items-stretch  place-content-center  md:grid-cols-3 gap-5">
+                {images[branch].map((image) => (
+                  <OurAlumniCard
+                    key={image._id}
+                    name={image.name}
+                    position={image.position}
+                    src={image.src}
+                    company={image.company}
+                    className="shadow-md p-5"
+                  >
+                    <button onClick={()=>{handleDelete(image._id , image.branch)}} className="delete">Delete</button>
+                  </OurAlumniCard>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

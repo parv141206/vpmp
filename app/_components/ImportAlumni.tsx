@@ -31,9 +31,12 @@ const ImportAlumni: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 jusitfy-start items-start">
+      <div className="justify-center text-center p-2 text-xl font-bold text-black/75 flex">
+        Import Alumni
+      </div>
       <input type="file" onChange={handleFileChange} />
-      <button type="submit">Upload CSV</button>
+      <button type="submit" className="btn">Upload CSV</button>
     </form>
   );
 };
