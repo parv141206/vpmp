@@ -33,6 +33,30 @@ export default function Dashboard() {
               Requests
             </Link>
           </li>
+          <li>
+            <Link
+              href="/admin/featured"
+              className="block hover:bg-gray-200 px-2 py-2 rounded"
+            >
+              Featured
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/students"
+              className="block hover:bg-gray-200 px-2 py-2 rounded"
+            >
+              Students
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/analyze"
+              className="block hover:bg-gray-200 px-2 py-2 rounded"
+            >
+              Analyze
+            </Link>
+          </li>
           <button onClick={() => { signOut(); }} className="p-3 bg-sky-300">Sign Out</button>
         </ul>
       </nav>

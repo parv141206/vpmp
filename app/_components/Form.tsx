@@ -10,6 +10,7 @@ export default function Form() {
   const [userCode, setUserCode] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [cooldownTimer, setCooldownTimer] = useState(0);
+  const [status, setStatus] = useState(""); // New state for work/study status
 
   useEffect(() => {
     let interval;
@@ -24,23 +25,19 @@ export default function Form() {
   }, [cooldownTimer]);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    
     console.log("uC", userCode, "code", code);
     if (parseInt(userCode) !== parseInt(code)) {
-      e.preventDefault();
       alert("Invalid OTP");
       return;
     }
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const file = formData.get("image");
-    const name = formData.get("name");
-    const batch = formData.get("batch");
-    const position = formData.get("position");
-    const company = formData.get("company");
-    const branch = formData.get("branch");
+
+    const endpoint = status === "study" ? "/api/db/images/temp/student" : "/api/db/images/temp";
 
     try {
-      const response = await fetch("/api/db/images/temp", {
+      const response = await fetch(endpoint, {
         method: "POST",
         body: formData,
       });
@@ -63,6 +60,7 @@ export default function Form() {
       return;
     }
     const randomCode = Math.floor(100000 + Math.random() * 900000);
+    //@ts-ignore
     setCode(randomCode);
     sendEmail(email, randomCode);
     setOtpSent(true);
@@ -95,27 +93,44 @@ export default function Form() {
           </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-1 w-full items-start">
             <label htmlFor="name">Name</label>
-            <input type="text" name="name" placeholder="Your Full Name" />
+            <input type="text" name="name" placeholder="Your Full Name" required />
             <label htmlFor="email">Email</label>
-            <input type="email" name="email" placeholder="your_email@gmail.com" onChange={(e) => setEmail(e.target.value)} />
+            <input type="email" name="email" placeholder="your_email@gmail.com" onChange={(e) => setEmail(e.target.value)} required />
             <label htmlFor="batch">Batch</label>
-            <input type="text" name="batch" placeholder="2022" />
+            <input type="text" name="batch" placeholder="2022" required />
             <label htmlFor="branch">Branch</label>
-            <select name="branch">
+            <select name="branch" required>
               <option value="ce">CE</option>
               <option value="me">ME</option>
               <option value="ec">EC</option>
               <option value="ee">EE</option>
               <option value="civil">Civil</option>
             </select>
-            <label htmlFor="company">Company</label>
-            <input type="text" name="company" placeholder="Your company name" />
-            <label htmlFor="position">Position</label>
-            <input type="text" name="position" placeholder="CEO | Developer | ....." />
+            <label htmlFor="status">Status</label>
+            <select name="status" onChange={(e) => setStatus(e.target.value)} required>
+              <option value="">Select Status</option>
+              <option value="work">Work</option>
+              <option value="study">Study</option>
+            </select>
+            {status === "work" && (
+              <>
+                <label htmlFor="company">Company</label>
+                <input type="text" name="company" placeholder="Your company name" />
+                <label htmlFor="position">Position</label>
+                <input type="text" name="position" placeholder="CEO | Developer | ....." />
+                <label htmlFor="workExperience">Work Experience</label>
+                <input type="text" name="workExperience" placeholder="e.g., 5 years" />
+              </>
+            )}
+            {status === "study" && (
+              <>
+                <label htmlFor="college">College Name</label>
+                <input type="text" name="college" placeholder="Your college name" />
+              </>
+            )}
             <label htmlFor="image">
               Please enter your image. Ensure the following,
             </label>
-
             <div className="p-3">
               <ul className="list-disc list-inside">
                 <li>Formal dressed</li>
@@ -123,26 +138,24 @@ export default function Form() {
                 <li>jpg/png/webp</li>
               </ul>
             </div>
-            <input type="file" className="w-full" name="image" />
+            <input type="file" className="w-full" name="image" required />
             <div className="flex items-center justify-center gap-3">
               <button
                 onClick={(e) => {
                   handleSendEmail(e);
                 }}
-                className="p-3  bg-green-300 text-black"
+                className="p-3 bg-green-300 text-black"
                 disabled={isDisabled}
               >
-                GetOTP on Email
+                Get OTP on Email
               </button>
               {cooldownTimer > 0 && (
                 <div>
                   Please wait {cooldownTimer} seconds before requesting a new OTP.
                 </div>
               )}
-              <input type="text" name="code" onChange={(e) => setUserCode(e.target.value)} placeholder="OTP" />
-
+              <input type="text" name="code" onChange={(e) => setUserCode(e.target.value)} placeholder="OTP" required />
             </div>
-
             <button className="submit" type="submit">
               Upload Image
             </button>
