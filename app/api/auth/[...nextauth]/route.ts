@@ -11,7 +11,7 @@ const handler = NextAuth({
       },
       //@ts-ignore
       async authorize(credentials, req) {
-        return fetch("http://localhost:3000/api/db/auth/", {
+        return fetch("/api/db/auth/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),

@@ -1,11 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import AlumniCard from "./Cards/AlumniCard";
+import "./Carousel.css";
+import BetterAlumniCard from "./Cards/BetterAlumniCard";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
+  const [fade, setFade] = useState(false);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -15,7 +18,10 @@ export default function Carousel() {
           throw new Error("Failed to fetch images");
         }
         const images = await rawImages.json();
-        setImages(images);
+        const ceBranchImages = images.filter(
+          (image) => image.branch === "ce" || image.branch === ""
+        );
+        setImages(ceBranchImages);
       } catch (err) {
         setError(err.message);
       }
@@ -25,8 +31,12 @@ export default function Carousel() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+      setFade(true);
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setFade(false);
+      }, 500); // Duration of the fade effect
+    }, 6000); // Duration between transitions
 
     return () => clearInterval(interval);
   }, [images.length]);
@@ -38,36 +48,33 @@ export default function Carousel() {
   return (
     <div className="overflow-x-hidden absolute">
       <div
+        className={`carousel-container ${fade ? "fade-out" : "fade-in"}`}
         style={{
-          transition: "transform 1s ease-in-out",
-          transform: `translateX(-${currentIndex * 100}vw)`,
+          transition: "opacity 0.5s ease-in-out",
         }}
-        className={`mx-auto overflow-x-scroll w-[${
-          images.length * 100
-        }vw] flex items-center justify-center`}
       >
-        {images.map((image, index) => (
-          <div
-            key={index}
-            className="relative h-screen w-screen"
-            style={{ width: "100vw" }}
-          >
-            <div className="absolute z-40 md:right-36 md:left-auto md:rotate-[25deg] -right-3 md:top-12 scale-[0.45] md:scale-90 -top-0 rotate-[-25deg] left-10">
-              <AlumniCard
-                name={images[index].name}
-                position={images[index].position}
-                src={images[index].src}
-              />
-            </div>
-            <div className=" z-40 absolute md:left-36 -left-3 md:right-auto md:rotate-[-25deg] scale-[0.55] md:scale-[0.8] md:top-12 -top-12 w-fit rotate-[25deg] right-10">
-              <AlumniCard
-                name={images[index + 1]?.name}
-                position={images[index + 1]?.position}
-                src={images[index + 1]?.src}
-              />
-            </div>
+        <div className="relative h-screen w-screen">
+          <div className="absolute z-40 md:right-32 md:left-auto md:rotate-[25deg] -right-3 md:top-20 scale-[0.55] md:scale-90 -top-0 rotate-[-25deg] left-10 ">
+            <BetterAlumniCard
+              className="w-64"
+              name={images[currentIndex]?.name}
+              position={images[currentIndex]?.position}
+              src={images[currentIndex]?.src}
+              company={images[currentIndex]?.company}
+              batch={images[currentIndex]?.batch}
+            />
           </div>
-        ))}
+          <div className="absolute z-40 md:left-32 md:right-auto md:-rotate-[25deg] -left-3 md:top-20 scale-[0.55] md:scale-90 -top-0 rotate-[-25deg] right-10 ">
+            <BetterAlumniCard
+              className="w-64"
+              name={images[(currentIndex + 1) % images.length]?.name}
+              position={images[(currentIndex + 1) % images.length]?.position}
+              src={images[(currentIndex + 1) % images.length]?.src}
+              company={images[currentIndex + (1 % images.length)]?.company}
+              batch={images[currentIndex + (1 % images.length)]?.batch}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ export default function Page() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/db/featured");
+      const response = await fetch("/api/db/featured");
       const articles = await response.json();
       setFeaturedArticles(articles);
     } catch (error) {

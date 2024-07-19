@@ -8,7 +8,18 @@ export default function BetterAlumniCard({
   src,
   batch,
   children,
-}: any) {
+  className,
+  branch,
+}: {
+  name: string;
+  position: string;
+  company: string;
+  src: string;
+  batch?: string;
+  branch?: string;
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const backgroundImageUrl = `url(${src})`;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -16,7 +27,7 @@ export default function BetterAlumniCard({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative border border-yellow-950/20 font-unkempt  backdrop-blur-lg  py-5 group  flex flex-col justify-center items-center text-center rounded-md shadow-lg`}
+      className={`${className} relative border border-yellow-950/20 font-unkempt  backdrop-blur-lg  py-5 group  flex flex-col justify-center items-center text-center rounded-md shadow-lg`}
     >
       <div
         className={`rounded-full h-36 w-36`}

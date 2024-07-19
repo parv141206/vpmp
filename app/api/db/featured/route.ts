@@ -19,10 +19,10 @@ export async function POST(req: NextRequest) {
 
   const { title, content, date } = await req.json();
 
-  const formattedDate = new Date(date).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
+  const formattedDate = new Date(date).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
   });
 
   const newArticle = {
@@ -46,8 +46,11 @@ export async function DELETE(req: NextRequest) {
   const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
   if (result.deletedCount === 1) {
-    return NextResponse.json({ message: 'Article deleted successfully' });
+    return NextResponse.json({ message: "Article deleted successfully" });
   } else {
-    return NextResponse.json({ message: 'Error deleting article' }, { status: 500 });
+    return NextResponse.json(
+      { message: "Error deleting article" },
+      { status: 500 }
+    );
   }
 }

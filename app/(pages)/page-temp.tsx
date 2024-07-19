@@ -7,7 +7,7 @@ export default function Home() {
   const [base64String, setBase64String] = useState<any>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/db/images")
+    fetch("/api/db/images")
       .then((res) => res.json())
       .then((res) => {
         const imageData = res.image.data;

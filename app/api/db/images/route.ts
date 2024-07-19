@@ -102,10 +102,6 @@ export async function DELETE(req: NextRequest) {
     await client.connect();
     const db = client.db("vpmp");
     const body = await req.json();
-    console.log(
-      ">|||||||||||||||||||||||||||||||||||||||||||||||||>>>>>>>>>>>",
-      body
-    );
     const id = new ObjectId(body.id);
     const branch = body.branch;
     const collection = db.collection(branch);
