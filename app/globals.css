@@ -13,8 +13,9 @@
     font-style: normal;
   }
 } */
+
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 body {
   background: linear-gradient(
@@ -36,17 +37,20 @@ button {
 .submit {
   @apply p-3 m-3 border rounded-lg bg-sky-700 text-white;
 }
-.btn{
-  @apply p-3 bg-sky-100 border text-black rounded-md; 
+.btn {
+  @apply p-3 bg-sky-100 border text-black rounded-md;
 }
-.delete{
-  @apply bg-red-500/25 backdrop-blur-lg text-white px-2 my-1 py-1 rounded;
+.btn-dark {
+  @apply p-3 bg-sky-900 border text-white rounded-md;
+}
+.delete {
+  @apply bg-red-500 backdrop-blur-lg text-white px-2 my-1 py-1 rounded;
 }
 .table {
   @apply p-5 border-black border-2;
 }
 .table thead tr th {
-  @apply border border-gray-500 p-3
+  @apply border border-gray-500 p-3;
 }
 .table tbody tr td {
   @apply border border-gray-500 p-1;

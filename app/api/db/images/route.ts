@@ -20,9 +20,9 @@ export async function POST(req: NextRequest) {
 
       const db = client.db("vpmp");
       let collection = db.collection("ce");
-      console.log(branch);
+      // console.log(branch);
       if (branch === "ce") {
-        console.log("cdcdc");
+        // console.log("cdcdc");
         collection = db.collection("ce");
       } else if (branch === "me") {
         collection = db.collection("me");
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       } else {
         collection = db.collection("ce");
       }
-      console.log(collection);
+      // console.log(collection);
       const res = await collection.insertOne({
         branch,
         name,
@@ -67,6 +67,7 @@ export async function GET(req: NextRequest) {
     for (const branch of branches) {
       const collection = db.collection(branch);
       const res = await collection.find({}).toArray();
+      // console.log(res);
       imageData.push(
         ...res.map((image) => ({
           id: image._id,
@@ -76,6 +77,7 @@ export async function GET(req: NextRequest) {
           position: image.position,
           src: `data:image/jpeg;base64,${image.image.toString("base64")}`,
           branch,
+          eno: image.eno,
         }))
       );
     }
@@ -100,17 +102,21 @@ export async function DELETE(req: NextRequest) {
     await client.connect();
     const db = client.db("vpmp");
     const body = await req.json();
+    console.log(
+      ">|||||||||||||||||||||||||||||||||||||||||||||||||>>>>>>>>>>>",
+      body
+    );
     const id = new ObjectId(body.id);
     const branch = body.branch;
-    console.log(branch)
     const collection = db.collection(branch);
+    console.log(id);
     const res = await collection.deleteOne({ _id: id });
     await client.close();
     return new NextResponse(JSON.stringify({ message: "deleted" }), {
       status: 200,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 500,
     });

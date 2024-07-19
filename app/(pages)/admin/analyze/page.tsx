@@ -15,7 +15,7 @@ export default function Page() {
 
   return (
     <div>
-      {Object.entries(data).map(([branch, values]) => {
+      {Object.entries(data).map(([branch, values]: any) => {
         values.sort((a, b) => parseInt(a.batch) - parseInt(b.batch));
         return (
           <div key={branch} className="p-5">
